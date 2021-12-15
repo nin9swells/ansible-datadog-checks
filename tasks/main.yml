@@ -22,7 +22,7 @@
           with_fileglob:
             - "{{ datadog_agent_checks_config_dir }}/*.yaml"
 
-      when: (datadog_check_version | default(installed_dd_agent_version)) is version('1:6', 'lt')
+      when: (datadog_check_version | default(installed_dd_agent_version.stdout)) is version('1:6', 'lt')
 
     - block: # when datadog-agent version > 6
 
@@ -37,6 +37,6 @@
         - name: "Display DataDog checks configurations"
           shell: ls -1 {{ datadog_config_path }}/conf.d/*.d/*.yaml
 
-      when: (datadog_check_version | default(installed_dd_agent_version)) is version('1:6', 'ge')
+      when: (datadog_check_version | default(installed_dd_agent_version.stdout)) is version('1:6', 'ge')
 
   become: true

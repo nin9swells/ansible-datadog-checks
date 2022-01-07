@@ -10,7 +10,7 @@
         - name: "Create {{ item }} DataDog v5 check configuration file"
           template:
             src: checks.yml.j2
-            dest: "{{ datadog_agent_checks_config_dir }}/{{ item }}.yaml"
+            dest: "{{ datadog_agent_legacy_checks_config_dir }}/{{ item }}.yaml"
             owner: "{{ datadog_user }}"
             group: "{{ datadog_group }}"
           with_items: "{{ datadog_checks | list }}"
@@ -20,7 +20,7 @@
             msg: "{{ lookup('file',item).split('\n') }}"
             verbosity: 2
           with_fileglob:
-            - "{{ datadog_agent_checks_config_dir }}/*.yaml"
+            - "{{ datadog_agent_legacy_checks_config_dir }}/*.yaml"
 
       when: (datadog_check_version | default(installed_dd_agent_version.stdout)) is version('1:6', 'lt')
 
